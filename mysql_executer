@@ -1,0 +1,32 @@
+#! /bin/bash 
+
+# Database connection information 
+HOST="localhost"
+DB_USER="root"
+DB_PASSWORD="@gobiernoit2015"
+DB_NAME="tests"
+
+# Variable reception 
+
+MAX_TIME=$1
+QUERY=$2
+
+PASSED_TIME=1 
+
+mysql -h $HOST -u $DB_USER -p $DB_PASSWORD "use $DB_NAME; $2;" &
+PID=$!
+
+echo "The obtained PID is $PID"
+
+# we will keep cheking for the query execution 
+
+while ($PASSED_TIME<$MAXTIME); do
+    # We need to check if the $PID is active 
+    if [ $(ps --pid $PID | wc -l) -gt 1 ]; then  
+        sleep 2
+        PASSED_TIME=$PASSED_TIME+2
+    fi
+end  
+
+
+

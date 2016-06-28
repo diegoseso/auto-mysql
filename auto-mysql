@@ -1,0 +1,20 @@
+#! /bin/bash
+
+
+# we need to check for an existing file 
+
+if [ !-f $1 ]; then 
+    echo "The file containing the queries does not exists"
+    exit 1
+fi 
+
+# the file needs to be parsed into 2 columns, first one contains max execution time, second the query to be executed
+awk 'begin{
+         FS="\t"
+     }
+     {
+         max_exec_time=$1
+         query=$2
+         /apps/html/bin/mysql_executer max_exec_time query
+     }' -f $1 
+# inside awk we could call the command wich will throw the query 
